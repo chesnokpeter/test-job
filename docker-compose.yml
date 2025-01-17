@@ -1,0 +1,49 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - appnetwork
+
+  consumer:
+    build:
+      context: ./consumer/
+      dockerfile: ./Dockerfile
+    environment:
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      QUEUE: ${QUEUE}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      RATE_LIMIT: ${RATE_LIMIT}
+    depends_on:
+      - rabbitmq
+    networks:
+      - appnetwork
+
+  producer:
+    build:
+      context: ./producer/
+      dockerfile: ./Dockerfile
+    ports:
+      - "8010:8010"
+    environment:
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      QUEUE: ${QUEUE}
+    depends_on:
+      - rabbitmq
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:

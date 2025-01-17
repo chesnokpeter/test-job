@@ -1,0 +1,14 @@
+[project]
+name = "test-tz"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aio-pika>=9.5.4",
+    "aiogram>=3.17.0",
+    "dishka>=1.4.2",
+    "fastapi>=0.115.6",
+    "faststream>=0.5.34",
+    "uvicorn>=0.34.0",
+]
