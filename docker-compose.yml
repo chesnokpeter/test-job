@@ -27,6 +27,19 @@ services:
     networks:
       - appnetwork
 
+  bot:
+    build:
+      context: ./producer/
+      dockerfile: ./Dockerfile.bot
+    environment:
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      QUEUE: ${QUEUE}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+    depends_on:
+      - rabbitmq
+    networks:
+      - appnetwork
+
   producer:
     build:
       context: ./producer/
