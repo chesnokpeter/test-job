@@ -15,4 +15,4 @@ ENV QUEUE='.'
 
 EXPOSE 8010
 
-CMD ["uvicorn", "app:app", "--port", "8010", "--host", "0.0.0.0"]
+CMD ["uvicorn", "app:app", "--port", "8010", "--host", "0.0.0.0", "--log-level", "critical"]
